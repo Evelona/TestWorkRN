@@ -19,7 +19,7 @@ const Navigator = createMaterialBottomTabNavigator({
 		navigationOptions: {
 			tabBarLabel: "Профиль",
 			tabBarIcon: ({ tintColor }) => (
-				<Icon name="content-cut" color={tintColor} size={26} />
+				<Icon name="face" color={tintColor} size={26} />
 			)
 		}
 	}
