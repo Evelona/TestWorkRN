@@ -1,7 +1,7 @@
-import * as ImagePicker from 'expo-image-picker';
-import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker'
+import * as Permissions from 'expo-permissions'
 
-import { Avatar, Button } from 'react-native-elements';
+import { Avatar, Button } from 'react-native-elements'
 import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { Component, useRef, useState } from "react"
 
@@ -13,7 +13,7 @@ const ProfileScreen = () => {
 	const [editing, setEditing] = useState(false)
 	const [status, setStatus] = useState('start')
 	const bs = useRef()
-	const fall = new Animated.Value(1);
+	const fall = new Animated.Value(1)
 	const [image, setImage] = useState('https://i0.wp.com/stephenafamo.com/blog/wp-content/uploads/2019/10/React-Native-1.png?fit=1200%2C675&ssl=1s')
 	const [description, setDescription] = useState('Очень люблю кошек и собак, верстать и прогать')
 	const cycle = {
@@ -22,6 +22,7 @@ const ProfileScreen = () => {
 		start: 'Редактировать'
 	}
 
+	//BottomSheetContent
 	const renderInner = () => (
 		<View style={styles.panelContent}>
 			<View style={{ alignItems: 'center' }}>
@@ -34,23 +35,22 @@ const ProfileScreen = () => {
 			<TouchableOpacity style={styles.buttonBS} onPress={selectPhotoFromGallery}>
 				<Text style={styles.panelSubtitle}>Choose From Library</Text>
 			</TouchableOpacity>
-			<TouchableOpacity
-				style={styles.buttonBS}
-				onPress={() => bs.current.snapTo(1)}>
+			<TouchableOpacity style={styles.buttonBS} onPress={() => bs.current.snapTo(1)}>
 				<Text style={styles.panelSubtitle}>Cancel</Text>
 			</TouchableOpacity>
 		</View>
-	);
+	)
 
+	//BottomSheetHeader
 	const renderHeader = () => (
 		<View style={styles.headerBS}>
 			<View style={styles.panel}>
 				<View style={styles.panelHandle} />
 			</View>
 		</View>
-	);
+	)
 
-
+		
 	const selectPhotoFromGallery = async () => {
 		await Permissions.askAsync(Permissions.CAMERA_ROLL)
 		const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({
@@ -58,10 +58,10 @@ const ProfileScreen = () => {
 			allowsEditing: true,
 			aspect: 1,
 			quality: 1,
-		});
+		})
 		if (!cancelled) {
-			setImage(uri);
-			bs.current.snapTo(1);		}
+			setImage(uri)
+			bs.current.snapTo(1)		}
 	}
 
 	const selectPhotoFromCamera = async () => {
@@ -69,9 +69,9 @@ const ProfileScreen = () => {
 		const { cancelled, uri } = await ImagePicker.launchCameraAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.All,
 			allowsEditing: false
-		});
+		})
 		if (!cancelled) {
-			setImage(uri);
+			setImage(uri)
 			bs.current.snapTo(1)
 		}
 	}
@@ -90,8 +90,7 @@ const ProfileScreen = () => {
 			{!editing ?
 				<View style={styles.header}>
 					<Text style={styles.title}>{name}</Text>
-				</View> 
-				: null}
+				</View> : null}
 			{editing ? 
 				<TextInput 
 					style={styles.input} 
@@ -106,9 +105,7 @@ const ProfileScreen = () => {
 				size="xlarge"
 				rounded
 				title={name[0]}
-				
 				source={{uri:image}}
-				// source={{ uri: 'https://i0.wp.com/stephenafamo.com/blog/wp-content/uploads/2019/10/React-Native-1.png?fit=1200%2C675&ssl=1' }}
 				avatarStyle = {styles.avatar}
 				activeOpacity={0.7}
 			/>
@@ -197,7 +194,6 @@ const styles = StyleSheet.create({
 		color: '#384289',
 		marginLeft: 'auto',
 		marginRight: 'auto',
-		// marginTop: 10,
 		marginBottom: 20,
 		paddingTop: 7,
 		alignItems: 'center'
@@ -235,6 +231,6 @@ const styles = StyleSheet.create({
 		color: '#384289',
 		marginBottom: 25
 	}
-});
+})
 
 export default ProfileScreen
