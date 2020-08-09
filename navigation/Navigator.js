@@ -24,7 +24,6 @@ const Navigator = createMaterialBottomTabNavigator({
 		}
 	}
 }, {
-			// activeTintColor: 'black',
 		inactiveTintColor: '#EFECF4',
 		style: {
 			backgroundColor: 'white'	
