@@ -1,8 +1,11 @@
+// import * as / from 'expo'
+
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
+
 import { Avatar, Button } from 'react-native-elements';
 import { Dimensions, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { Component, useState } from "react"
-
-import ImagePicker from 'react-native-image-picker'
 
 const option = {
 	title: 'Выберите:',
@@ -10,22 +13,36 @@ const option = {
 	chooseFromLibraryButtonTitle: 'Photo Library',
 
 }
-const { width } = Dimensions.get('window')
+
+
+
 const ProfileScreen = () => {
 	const [name, setName] = useState('Eveline')
 	const [editing, setEditing] = useState(false)
 	const [status, setStatus] = useState('start')
+	const [image, setImage] = useState(null)
 	const [description, setDescription] = useState('Очень люблю кошек и собак, верстать и прогать')
-
+	console.log(image)
 	const cycle = {
 		editing: 'Сохранить',
 		nothing: 'Отменить',
 		start: 'Редактировать'
 	}
-	
-	const choosePhoto = () => {
-		alert('click')
+	const selectPhotoFromGallery = async () => {
+		await Permissions.askAsync(Permissions.CAMERA_ROLL)
+		const { cancelled, uri}  = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.All,
+			allowsEditing: true,
+			aspect: 1,
+			quality: 1,
+		});
+		if (!cancelled) {
+			setImage(uri);
+		}
 	}
+	// const choosePhoto = () => {
+	// 	alert('click')
+	// }
 
 	return (
 		<View style={styles.container}>
@@ -47,7 +64,8 @@ const ProfileScreen = () => {
 				size="xlarge"
 				rounded
 				title={name[0]}
-				onPress={() => choosePhoto()}
+				onPress={() => selectPhotoFromGallery()}
+				source={{uri:image}}
 				// source={{ uri: 'https://i0.wp.com/stephenafamo.com/blog/wp-content/uploads/2019/10/React-Native-1.png?fit=1200%2C675&ssl=1' }}
 				avatarStyle = {styles.avatar}
 				activeOpacity={0.7}
