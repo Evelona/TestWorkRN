@@ -14,11 +14,13 @@ const { width } = Dimensions.get('window')
 const ProfileScreen = () => {
 	const [name, setName] = useState('Eveline')
 	const [editing, setEditing] = useState(false)
+	const [status, setStatus] = useState('start')
 	const [description, setDescription] = useState('Очень люблю кошек и собак, верстать и прогать')
 
 	const cycle = {
-		true: 'Сохранить',
-		false: 'Редактировать'
+		editing: 'Сохранить',
+		nothing: 'Отменить',
+		start: 'Редактировать'
 	}
 	
 	const choosePhoto = () => {
@@ -35,8 +37,11 @@ const ProfileScreen = () => {
 			{editing ? 
 				<TextInput 
 					style={styles.input} 
-					placeholder='Name'
-					onChangeText={(text) => setName(text)}
+					placeholder={name}
+					onChangeText={(text) => {
+						setName(text)
+						setStatus('editing')
+					}}
 				/> : null}
 			<Avatar
 				size="xlarge"
@@ -51,15 +56,21 @@ const ProfileScreen = () => {
 			{editing ? 
 				<TextInput 
 					style={styles.input}
-					placeholder='Description'
-					onChangeText={(text) => setDescription(text)}
+					placeholder={description}
+					onChangeText={(text) => {
+						setDescription(text)
+						setStatus('editing')
+					}}
 				/> : null}
 			
 			<Button
-				title={cycle[editing]}
+				title={cycle[status]}
 				type="clear"
 				buttonStyle={styles.button}
-				onPress={() => setEditing(!editing)}
+				onPress={() => {
+					editing ? setStatus('start') : setStatus('nothing')
+					setEditing(!editing)
+				}}
 			/>
 		</View>
 	)
@@ -107,7 +118,7 @@ const styles = StyleSheet.create({
 	input: {
 		marginTop: 50,
 		height: 40,
-		width: 200,
+		width: 250,
 		borderColor: 'gray',
 		marginBottom: 50,
 		borderWidth: 1,
